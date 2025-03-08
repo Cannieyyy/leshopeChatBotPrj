@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace chatBotPrj
 {
@@ -13,48 +14,70 @@ namespace chatBotPrj
             string userName = "You";
 
             // Welcome message
+            Console.ForegroundColor = ConsoleColor.Green;//changing the colour of the bots text to green
             Console.WriteLine(botName + ": Hello, welcome to cyber security.");
+            
 
             // Ask for user's name
             Console.WriteLine(botName + ": What is your name? ");
+            Console.ResetColor();
+
+            Console.ForegroundColor= ConsoleColor.Blue;
             Console.Write(userName + ": ");
             userName = Console.ReadLine();
+            Console.ResetColor();
 
             // Asking the user if they want to change the bot's name
+            Console.ForegroundColor = ConsoleColor.Green;//changing the colour of the bots text to green
             Console.WriteLine(botName + $": Would you like to give me a name {userName}? (yes/no) ");
+            Console.ResetColor();
+
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write(userName + ": ");
             string changeName = Console.ReadLine().ToLower();
+            Console.ResetColor();
 
             //if statement for if the user types in yes
             if (changeName == "yes")
             {
+                Console.ForegroundColor = ConsoleColor.Green;//changing the colour of the bots text to green
                 Console.WriteLine(botName + $": What would you like to call me {userName}? ");
+                Console.ResetColor();
+
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write(userName + ": ");
                 botName = Console.ReadLine();
+                Console.ResetColor();
             }
 
             // Load responses from file
             ArrayList responseList = LoadResponsesFromFile("responses.txt");
 
+            Console.ForegroundColor = ConsoleColor.Green;//changing the colour of the bots text to green
             Console.WriteLine(botName + $": What would you like to ask me about {userName}? ");
-
+            Console.ResetColor();
 
             // Chat loop (this will keep the program running until the user types in the keyword exit or bye)
             while (true)
             {
-                
+                Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write(userName + ": ");
                 string userInput = Console.ReadLine().ToLower();
+                Console.ResetColor();
 
                 if (userInput == "exit" || userInput == "bye") //if the user types exit or bye, the program stops
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine(botName + ": Goodbye! Have a great day.");
+                    Console.ResetColor();
                     break; //sentinel value that stops the loop if the user typed exit
                 }
 
                 //Declaring a variable and assigning it to a method FindBestResponse
                 string response = FindBestResponse(responseList, userInput);
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(botName + ": " + response);
+                Console.ResetColor();
             }
 
         }//End of constructor
@@ -102,7 +125,14 @@ namespace chatBotPrj
                 }
             }
 
-            return "Sorry, I cannot help you. My developers created me to provide information about cyber security only. TIP: you can ask me about cyber security, passwords, phishing or safe browsing";
+            
+
+            Console.ForegroundColor = ConsoleColor.Red;
+            return "Sorry, I cannot help you. My developers created me to " +
+                "provide information about cyber security only. TIP: you can ask me about " +
+                "cyber security, passwords, phishing or safe browsing";
+            Console.ResetColor();
+
         }//end of FindBestResponse
 
 
