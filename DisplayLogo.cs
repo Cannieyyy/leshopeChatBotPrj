@@ -10,5 +10,7 @@ namespace chatBotPrj
             string logo = File.ReadAllText("logo.txt");
             Console.WriteLine(logo);
         }
+
+
     }
 }
