@@ -16,15 +16,14 @@ namespace chatBotPrj
         {
 
 
+            //creating an instance for a class DisplayLogo
+            new DisplayLogo() { };
+
+            //creating an instance for for a class PlaySound
+            new PlaySound() { };
 
 
-
-            string logo = File.ReadAllText("logo.txt");
-            Console.WriteLine(logo);
-
-
-            SoundPlayer player = new SoundPlayer("greet.wav");
-            player.Play();
+            
 
 
 
