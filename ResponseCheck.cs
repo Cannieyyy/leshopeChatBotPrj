@@ -10,7 +10,12 @@ namespace chatBotPrj
     {
         public ResponseCheck()
         {
-            
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("========================================");
+            Console.WriteLine("Welcome to Cyber Security Awareness Chat");
+            Console.WriteLine("========================================");
+            Console.ResetColor();
+
 
             //declaring and initialzing variables to store userName and botName
             string botName = "ChatBot";
@@ -18,8 +23,8 @@ namespace chatBotPrj
             string userInput; //this declaration is for the input of the user
 
             // Welcome message
-           TypingEffect ( botName + ": Hello! Welcome the Cyber Security Awareness Chat, where I help you stay safe online.",ConsoleColor.Green);
-           TypingEffect( botName + ": What is your name? ",ConsoleColor.Green);
+            TypingEffect ( "\n" + botName + ": Hello!I'm here to help you stay safe online.",ConsoleColor.Green);
+            TypingEffect( botName + ": What is your name? ",ConsoleColor.Green);
            
 
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -40,10 +45,9 @@ namespace chatBotPrj
                 Console.ResetColor();
             }
 
-            
+
 
             // Asking the user if they want to change the bot's name
-            
             TypingEffect(botName + $": Would you like to give me a name {userName}? (yes/no) ", ConsoleColor.Green);
             
 
@@ -73,7 +77,7 @@ namespace chatBotPrj
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write(userName + ": ");
-                botName = Console.ReadLine().ToLower();
+                botName = Console.ReadLine();
                 Console.ResetColor();
 
                 while (string.IsNullOrEmpty(botName))// the while loop makes sure the user enters an input to avoid errors
@@ -97,7 +101,7 @@ namespace chatBotPrj
             while (true)
             {
                 
-                    TypingEffect(botName + $": What would you like to ask me about {userName}? ", ConsoleColor.Green);
+                    TypingEffect(botName + $": What would you like to ask me about {userName}? Type 'exit' or 'bye' to end the chat.", ConsoleColor.Green);
 
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.Write(userName + ": ");
@@ -130,8 +134,9 @@ namespace chatBotPrj
                     //Declaring a variable and assigning it to a method FindBestResponse
                     string response = FindBestResponse(responseList, userInput).Trim();
                     TypingEffect(botName + ": " + response, ConsoleColor.Green);
+                    
                 }
-                
+
             
 
         }//End of constructor
@@ -179,15 +184,16 @@ namespace chatBotPrj
                 } 
             }
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            string responseNotFound = "Sorry, I cannot help you. My developers created me to provide information about cyber security only. TIP: you can ask me about cyber security, passwords, phishing or safe browsing";
-            Console.ResetColor();
-            
-            
-            //remember to fix this!!
-
-            return responseNotFound ;
            
+
+            // Message when no response is found
+            string responseNotFound = "Sorry, I cannot help you. My developers created me to provide information about cyber security only. TIP: you can ask me about cyber security, passwords, phishing or safe browsing.";
+
+            // Print the message with red color
+            TypingEffect(responseNotFound, ConsoleColor.Red);
+
+            return responseNotFound;
+
 
         }//end of FindBestResponse
 

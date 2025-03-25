@@ -8,7 +8,9 @@ namespace chatBotPrj
         public DisplayLogo()
         {
             string logo = File.ReadAllText("logo.txt");
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine(logo);
+            Console.ResetColor();
         }
 
 
