@@ -132,8 +132,8 @@ namespace chatBotPrj
 
 
                     //Declaring a variable and assigning it to a method FindBestResponse
-                    string response = FindBestResponse(responseList, userInput).Trim();
-                    TypingEffect(botName + ": " + response, ConsoleColor.Green);
+                    FindBestResponse(responseList, userInput, botName);
+                    
                     
                 }
 
@@ -167,7 +167,7 @@ namespace chatBotPrj
 
 
         //creating a method FindBestResponse to look for a suitable response  
-        private string FindBestResponse(ArrayList responseList, string userInput)//this method passes an arraylist and a string as parameters
+        private void FindBestResponse(ArrayList responseList, string userInput, string botName)//this method passes an arraylist and a string as parameters
         {
             //foreach loop that loops through the arraylist in pairs
             foreach (string[] pair in responseList)
@@ -180,7 +180,8 @@ namespace chatBotPrj
 
                 if (userInput.Contains(keyword))
                 {
-                    return response;
+                    TypingEffect(botName + ": " + response, ConsoleColor.Green); 
+                    return; 
                 } 
             }
 
@@ -190,9 +191,9 @@ namespace chatBotPrj
             string responseNotFound = "Sorry, I cannot help you. My developers created me to provide information about cyber security only. TIP: you can ask me about cyber security, passwords, phishing or safe browsing.";
 
             // Print the message with red color
-            TypingEffect(responseNotFound, ConsoleColor.Red);
+            TypingEffect(botName + ": " + responseNotFound, ConsoleColor.Red);
 
-            return responseNotFound;
+            
 
 
         }//end of FindBestResponse
