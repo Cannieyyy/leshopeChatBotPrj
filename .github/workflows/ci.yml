@@ -1,0 +1,28 @@
+name: C# Build
+
+on:
+  push:
+    branches:
+      - main  # Runs on every push to the main branch
+  pull_request:
+    branches:
+      - main  # Runs on every pull request to main
+
+jobs:
+  build:
+    runs-on: windows-latest  # Use the latest windows runner
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4  # Clones the repository
+
+      - name: Set Up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '4.7.2'  
+
+      - name: Restore Dependencies
+        run: dotnet restore  # Ensures dependencies are installed
+
+      - name: Build the Project
+        run: dotnet build --no-restore --configuration Release  # Builds your project
