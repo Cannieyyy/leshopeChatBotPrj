@@ -26,8 +26,7 @@ namespace chatBotPrj
             //Creating an instance for class ResponseCheck
             new ResponseCheck();
 
-
-
+             
             
         }
 

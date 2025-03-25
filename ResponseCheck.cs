@@ -2,83 +2,137 @@
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 
 namespace chatBotPrj
 {
-    internal class ResponseCheck
+    public class ResponseCheck
     {
         public ResponseCheck()
         {
-            //declaring variables to store userName and botName
-            string botName = "ChatBot";
-            string userName = "You";
-
-            // Welcome message
-            Console.ForegroundColor = ConsoleColor.Green;//changing the colour of the bots text to green
-            Console.WriteLine(botName + ": Hello, welcome to cyber security.");
             
 
-            // Ask for user's name
-            Console.WriteLine(botName + ": What is your name? ");
-            Console.ResetColor();
+            //declaring and initialzing variables to store userName and botName
+            string botName = "ChatBot";
+            string userName = "You";
+            string userInput; //this declaration is for the input of the user
 
-            Console.ForegroundColor= ConsoleColor.Blue;
+            // Welcome message
+           TypingEffect ( botName + ": Hello! Welcome the Cyber Security Awareness Chat, where I help you stay safe online.",ConsoleColor.Green);
+           TypingEffect( botName + ": What is your name? ",ConsoleColor.Green);
+           
+
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write(userName + ": ");
             userName = Console.ReadLine();
             Console.ResetColor();
 
+            // Ask for user's name
+            while (string.IsNullOrEmpty(userName))// the while loop makes sure the user enters their name
+            {
+                
+                TypingEffect(botName + $": This field cannot be empty! please enter your name {userName}!", ConsoleColor.Red);
+                
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write("You" + ": ");
+                userName = Console.ReadLine();
+                Console.ResetColor();
+            }
+
+            
+
             // Asking the user if they want to change the bot's name
-            Console.ForegroundColor = ConsoleColor.Green;//changing the colour of the bots text to green
-            Console.WriteLine(botName + $": Would you like to give me a name {userName}? (yes/no) ");
-            Console.ResetColor();
+            
+            TypingEffect(botName + $": Would you like to give me a name {userName}? (yes/no) ", ConsoleColor.Green);
+            
 
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.Write(userName + ": ");
             string changeName = Console.ReadLine().ToLower();
             Console.ResetColor();
 
-            //if statement for if the user types in yes
-            if (changeName == "yes")
+            while (string.IsNullOrEmpty(changeName))// the while loop makes sure the user enters an input to avoid errors
             {
-                Console.ForegroundColor = ConsoleColor.Green;//changing the colour of the bots text to green
-                Console.WriteLine(botName + $": What would you like to call me {userName}? ");
+                
+                TypingEffect(botName + $": This field cannot be empty! please enter yes or no {userName}!", ConsoleColor.Red);
+              
+
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write("You" + ": ");
+                changeName = Console.ReadLine().ToLower();
                 Console.ResetColor();
+            }
+
+            //if statement for if the user types in yes
+            if (changeName.Equals("yes"))
+            {
+                
+                TypingEffect(botName + $": What would you like to call me {userName}? ", ConsoleColor.Green);
+               
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write(userName + ": ");
-                botName = Console.ReadLine();
+                botName = Console.ReadLine().ToLower();
                 Console.ResetColor();
+
+                while (string.IsNullOrEmpty(botName))// the while loop makes sure the user enters an input to avoid errors
+                {
+                    
+                    TypingEffect(botName + $": This field cannot be empty! please enter give me a name {userName}!", ConsoleColor.Red);
+
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write("You" + ": ");
+                    botName = Console.ReadLine();
+                    Console.ResetColor();
+                }
             }
 
             // Load responses from file
             ArrayList responseList = LoadResponsesFromFile("responses.txt");
 
-            Console.ForegroundColor = ConsoleColor.Green;//changing the colour of the bots text to green
-            Console.WriteLine(botName + $": What would you like to ask me about {userName}? ");
-            Console.ResetColor();
+           
 
             // Chat loop (this will keep the program running until the user types in the keyword exit or bye)
             while (true)
             {
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.Write(userName + ": ");
-                string userInput = Console.ReadLine().ToLower();
-                Console.ResetColor();
+                
+                    TypingEffect(botName + $": What would you like to ask me about {userName}? ", ConsoleColor.Green);
 
-                if (userInput == "exit" || userInput == "bye") //if the user types exit or bye, the program stops
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine(botName + ": Goodbye! Have a great day.");
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write(userName + ": ");
+                    userInput = Console.ReadLine().ToLower();
                     Console.ResetColor();
-                    break; //sentinel value that stops the loop if the user typed exit
+
+
+                while (string.IsNullOrEmpty(userInput))
+                {
+                    
+                   TypingEffect(botName + $": This field cannot be empty! please ask a question {userName}!", ConsoleColor.Red);
+
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write(userName + ": ");
+                    userInput = Console.ReadLine();
+                    Console.ResetColor();
                 }
 
-                //Declaring a variable and assigning it to a method FindBestResponse
-                string response = FindBestResponse(responseList, userInput);
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine(botName + ": " + response);
-                Console.ResetColor();
-            }
+
+                if (userInput == "exit" || userInput == "bye") //if the user types exit or bye, the program stops
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        TypingEffect(botName + $": Goodbye! Have a great day {userName}!", ConsoleColor.Green);
+                        Console.ResetColor();
+                        break; //sentinel value that stops the loop if the user typed exit
+                    }
+
+
+
+                    //Declaring a variable and assigning it to a method FindBestResponse
+                    string response = FindBestResponse(responseList, userInput).Trim();
+                    TypingEffect(botName + ": " + response, ConsoleColor.Green);
+                }
+                
+            
 
         }//End of constructor
 
@@ -122,19 +176,34 @@ namespace chatBotPrj
                 if (userInput.Contains(keyword))
                 {
                     return response;
-                }
+                } 
             }
 
-            
-
             Console.ForegroundColor = ConsoleColor.Red;
-            return "Sorry, I cannot help you. My developers created me to " +
-                "provide information about cyber security only. TIP: you can ask me about " +
-                "cyber security, passwords, phishing or safe browsing";
+            string responseNotFound = "Sorry, I cannot help you. My developers created me to provide information about cyber security only. TIP: you can ask me about cyber security, passwords, phishing or safe browsing";
             Console.ResetColor();
+            
+            
+            //remember to fix this!!
+
+            return responseNotFound ;
+           
 
         }//end of FindBestResponse
 
+
+        // a methods that adds a typing effect to the chatbot's response
+        private void TypingEffect(string message, ConsoleColor color ,int speed = 20)// this method parses a string, a colour and int as a parameter
+        {
+            Console.ForegroundColor = color;
+            foreach (char c in message)
+            {
+                Console.Write(c);
+                System.Threading.Thread.Sleep(speed); // Adjust speed for effect
+            }
+            Console.WriteLine();
+            Console.ResetColor ();
+        }
 
     }
 }
