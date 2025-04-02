@@ -3,6 +3,9 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
+using System.Linq;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace chatBotPrj
 {
@@ -18,12 +21,12 @@ namespace chatBotPrj
 
 
             //declaring and initialzing variables to store userName and botName
-            string botName = "ChatBot";
+            string botName = "CyberBot";
             string userName = "You";
             string userInput; //this declaration is for the input of the user
 
-            // Welcome message
-            TypingEffect ( "\n" + botName + ": Hello!I'm here to help you stay safe online.",ConsoleColor.Green);
+            // Greeting message
+            TypingEffect(botName + ": Hello! My name is CyberBot.",ConsoleColor.Green);
             TypingEffect( botName + ": What is your name? ",ConsoleColor.Green);
            
 
@@ -32,17 +35,25 @@ namespace chatBotPrj
             userName = Console.ReadLine();
             Console.ResetColor();
 
+            //  remove unnecessary words from the inuput
+            userName = FilterUnwantedWords(userName, new string[] { "my", "name", "is", "i", "am", "call", "me", "the", ".", "," });
+            string pattern = @"^[a-zA-Z., ]+$";
+           
             // Ask for user's name
-            while (string.IsNullOrEmpty(userName))// the while loop makes sure the user enters their name
+            while (string.IsNullOrEmpty(userName) || !Regex.IsMatch(userName,pattern))// the while loop makes sure the user enters their name and that their name does not contain any characters or numbers
             {
                 
-                TypingEffect(botName + $": This field cannot be empty! please enter your name {userName}!", ConsoleColor.Red);
+                TypingEffect(botName + $": This field cannot be empty or contain numbers/special characters! Please enter your name!", ConsoleColor.Red);
                 
 
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write("You" + ": ");
                 userName = Console.ReadLine();
                 Console.ResetColor();
+
+                // Process user input and remove unnecessary words
+                userName = FilterUnwantedWords(userName, new string[] { "my", "name", "is", "i", "am", "call", "me", "the" });
+
             }
 
 
@@ -80,15 +91,21 @@ namespace chatBotPrj
                 botName = Console.ReadLine();
                 Console.ResetColor();
 
+                // Process user input and remove unnecessary words
+                botName = FilterUnwantedWords(botName, new string[] { "would", "name", "like", "i", "to", "call", "you", "your", "is"});
+
                 while (string.IsNullOrEmpty(botName))// the while loop makes sure the user enters an input to avoid errors
                 {
                     
-                    TypingEffect(botName + $": This field cannot be empty! please enter give me a name {userName}!", ConsoleColor.Red);
+                    TypingEffect(botName + $": This field cannot be empty! please give me a name {userName}!", ConsoleColor.Red);
 
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.Write("You" + ": ");
                     botName = Console.ReadLine();
                     Console.ResetColor();
+
+                    // Process user input and remove unnecessary words
+                    botName = FilterUnwantedWords(botName, new string[] { "would", "name", "like", "i", "to", "call", "you", "your", "is" });
                 }
             }
 
@@ -123,9 +140,8 @@ namespace chatBotPrj
 
                 if (userInput == "exit" || userInput == "bye") //if the user types exit or bye, the program stops
                     {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        TypingEffect(botName + $": Goodbye! Have a great day {userName}!", ConsoleColor.Green);
-                        Console.ResetColor();
+
+                    TypingEffect(botName + $": Goodbye! Have a great day {userName}!", ConsoleColor.Green);
                         break; //sentinel value that stops the loop if the user typed exit
                     }
 
@@ -140,6 +156,20 @@ namespace chatBotPrj
             
 
         }//End of constructor
+
+        
+        // Method to remove unnecessary words from a string
+        private string FilterUnwantedWords(string input, string[] wordsToRemove)
+        {
+            List<string> words = new List<string>(input.Split(' '));
+
+            // Remove unwanted words
+            words.RemoveAll(word => wordsToRemove.Contains(word.ToLower()));
+
+            // Return the first remaining word or "Unknown" if empty
+            return words.Count > 0 ? words[0].ToString() : "Unknown";
+        }
+
 
         //Creating a method LoadResponsesfromFile to load the responses from a file.
         private ArrayList LoadResponsesFromFile(string filePath)
@@ -183,26 +213,29 @@ namespace chatBotPrj
                     TypingEffect(botName + ": " + response, ConsoleColor.Green); 
                     return; 
                 } 
-            }
+            }//end findBestResponse method
 
            
 
             // Message when no response is found
-            string responseNotFound = "Sorry, I cannot help you. My developers created me to provide information about cyber security only. TIP: you can ask me about cyber security, passwords, phishing or safe browsing.";
+            string responseNotFound = "Sorry, I cannot answer that question. TIP: you can ask me about cyber security, passwords, phishing or safe browsing.";
 
             // Print the message with red color
             TypingEffect(botName + ": " + responseNotFound, ConsoleColor.Red);
 
-            
+
 
 
         }//end of FindBestResponse
 
 
         // a methods that adds a typing effect to the chatbot's response
-        private void TypingEffect(string message, ConsoleColor color ,int speed = 20)// this method parses a string, a colour and int as a parameter
+        private void TypingEffect(string message, ConsoleColor color )// this method parses a string, a colour and int as a parameter
         {
+            int speed = 20;
+
             Console.ForegroundColor = color;
+
             foreach (char c in message)
             {
                 Console.Write(c);
@@ -210,7 +243,8 @@ namespace chatBotPrj
             }
             Console.WriteLine();
             Console.ResetColor ();
-        }
+        }//end of typing effect
 
-    }
-}
+    }//end of class
+
+}//end of name space

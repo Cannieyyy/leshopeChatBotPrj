@@ -14,19 +14,15 @@ namespace chatBotPrj
     {
         static void Main(string[] args)
         {
-
+            //creating an instance for for a class PlaySound
+            new PlaySound() { };
 
             //creating an instance for a class DisplayLogo
             new DisplayLogo() { };
 
-            //creating an instance for for a class PlaySound
-            new PlaySound() { };
-
 
             //Creating an instance for class ResponseCheck
-            new ResponseCheck();
-
-             
+            new ResponseCheck();    
             
         }
 
