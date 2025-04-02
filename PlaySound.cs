@@ -9,20 +9,47 @@ namespace chatBotPrj
     {
         public PlaySound()
         {
-            //declaring a variable to store the file path of the sound
-            string greeting = "greet.wav";
+            //Getting where sound file is
+            string soundLocation = AppDomain.CurrentDomain.BaseDirectory;
 
-            if (File.Exists(greeting))
+
+            //Checking if it is getting the Directory
+            Console.WriteLine(soundLocation);
+
+            //Replacing the bin\debug so it can get the audio
+            string updatedPath = soundLocation.Replace("bin\\Debug\\", "");
+
+            //Combining the wav name as sound.wav with the updated path
+            string fullPath = Path.Combine(updatedPath, "greet.wav");
+
+            //Passing to the method playWav
+            playWav(fullPath);
+
+
+        }//end of constuctor
+         //Creating a method to play the .wav sound file
+
+        private void playWav(string fullPath)
+        {
+            //Try and catch
+
+            try
             {
-                //creating a sound player object that allows me to play the sound
-                SoundPlayer player = new SoundPlayer(greeting);//this object parses a string as a parameter
-                player.Play();//play the sound
+                //Playing the sound 
+                using (SoundPlayer soundPlayer = new SoundPlayer(fullPath))
+                {
+                    //This is to play the sound till the end
+                    soundPlayer.PlaySync();
+                }
+
             }
-            else
+            catch (Exception error)
             {
-                Console.WriteLine("File of the sound does not exist!");//this message is diaplyed if the file does not exist
-            }
-            
+                //Displaying the error message
+                Console.WriteLine(error.Message);
+
+            }//end of try and catch 
         }
-    }
-}
+
+    }//end of class
+}//end of namespace
