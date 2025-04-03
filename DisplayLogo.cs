@@ -42,12 +42,15 @@ namespace chatBotPrj
                     //Making use of char to design the logo using characters
                     char ascii_design = colour > 200 ? '.' : colour > 100 ? '*' : colour > 150 ? 'O' : colour > 50 ? '#' : '@';
 
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
                     Console.Write(ascii_design); //Displaying the ascii design 
-
+                    Console.ResetColor();
 
                 }//end of inner loop 
 
+               
                 Console.WriteLine(); //Skipping the line 
+                
 
 
             }//end of outer for loop 

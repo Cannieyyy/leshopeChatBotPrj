@@ -13,6 +13,7 @@ namespace chatBotPrj
     {
         public ResponseCheck()
         {
+            //welcome display when the class starts to execute
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("========================================");
             Console.WriteLine("Welcome to Cyber Security Awareness Chat");
@@ -21,9 +22,10 @@ namespace chatBotPrj
 
 
             //declaring and initialzing variables to store userName and botName
-            string botName = "CyberBot";
+            string botName = "CyberBot";// this initialises the botName to a specific name before the user changes it
             string userName = "You";
             string userInput; //this declaration is for the input of the user
+            string pattern = @"^[a-zA-Z ]+$";// this is the declaration of a
 
             // Greeting message
             TypingEffect(botName + ": Hello! My name is CyberBot.",ConsoleColor.Green);
@@ -35,9 +37,10 @@ namespace chatBotPrj
             userName = Console.ReadLine();
             Console.ResetColor();
 
+          
             //  remove unnecessary words from the inuput
             userName = FilterUnwantedWords(userName, new string[] { "my", "name", "is", "i", "am", "call", "me", "the", ".", "," });
-            string pattern = @"^[a-zA-Z., ]+$";
+            
            
             // Ask for user's name
             while (string.IsNullOrEmpty(userName) || !Regex.IsMatch(userName,pattern))// the while loop makes sure the user enters their name and that their name does not contain any characters or numbers
