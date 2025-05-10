@@ -83,7 +83,7 @@ namespace chatBotPrj
             }
 
             //if statement for if the user types in yes
-            if (changeName.Equals("yes"))
+            if (changeName.Contains("yes"))
             {
                 
                 TypingEffect(botName + $": What would you like to call me {userName}? ", ConsoleColor.Green);
@@ -97,10 +97,10 @@ namespace chatBotPrj
                 // Process user input and remove unnecessary words
                 botName = FilterUnwantedWords(botName, new string[] { "would", "name", "like", "i", "to", "call", "you", "your", "is"});
 
-                while (string.IsNullOrEmpty(botName))// the while loop makes sure the user enters an input to avoid errors
+                while (string.IsNullOrEmpty(botName) || !Regex.IsMatch(botName,pattern))// the while loop makes sure the user enters an input to avoid errors
                 {
                     
-                    TypingEffect(botName + $": This field cannot be empty! please give me a name {userName}!", ConsoleColor.Red);
+                    TypingEffect(botName + $": This field cannot be empty and cannot contain a number or characters! please give me a name {userName}!", ConsoleColor.Red);
 
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.Write("You" + ": ");
@@ -115,23 +115,35 @@ namespace chatBotPrj
             // Load responses from file
             ArrayList responseList = LoadResponsesFromFile("responses.txt");
 
-           
+            //decalre a list to sroe the random questions
+            List<string> questions = new List<string>
+           {
+                //stroring the random responses
+                "What would you like to know about cyber security today?",
+                "How can I assist you with your security concerns?",
+                "What topic about online safety interests you?",
+                "Is there something you'd like to learn about passwords, phishing, or safe browsing?",
+                "Do you have any questions about protecting yourself online?"
+           };
+
+            //declaring a random object
+            Random random = new Random();
 
             // Chat loop (this will keep the program running until the user types in the keyword exit or bye)
             while (true)
-            {
-                
-                    TypingEffect(botName + $": What would you like to ask me about {userName}? Type 'exit' or 'bye' to end the chat.", ConsoleColor.Green);
+            {    
+                //declared a variable to generate questions based on the stored list 
+                string randomQuestions = questions[random.Next(questions.Count)];
+
+                    TypingEffect(botName + $": {randomQuestions} {userName}? Type 'exit' or 'bye' to end the chat.", ConsoleColor.Green);
 
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.Write(userName + ": ");
                     userInput = Console.ReadLine().ToLower();
                     Console.ResetColor();
 
-
                 while (string.IsNullOrEmpty(userInput))
-                {
-                    
+                {                   
                    TypingEffect(botName + $": This field cannot be empty! please ask a question {userName}!", ConsoleColor.Red);
 
                     Console.ForegroundColor = ConsoleColor.Blue;
@@ -150,14 +162,9 @@ namespace chatBotPrj
 
 
 
-                    //Declaring a variable and assigning it to a method FindBestResponse
-                    FindBestResponse(responseList, userInput, botName);
-                    
-                    
+                    //invoking a method FindBestResponse
+                    FindBestResponse(responseList, userInput, botName);      
                 }
-
-            
-
         }//End of constructor
 
         
@@ -180,20 +187,26 @@ namespace chatBotPrj
             //Declaring an arraylist object called responseList
             ArrayList responseList = new ArrayList();
 
+            if (File.Exists(filePath))
+            {
                 // declaring a string array called lines and assigning it to a built-in method ReadAllLines
-                string [] lines = File.ReadAllLines(filePath);
+                string[] lines = File.ReadAllLines(filePath);
 
                 foreach (string line in lines)//loops through each line of the array
                 {
-                    string [] parts = line.Split('=');//each line is going to be separated in to two parts, the "=" is where the line is going to split
+                    string[] parts = line.Split('=');//each line is going to be separated in to two parts, the "=" is where the line is going to split
 
                     if (parts.Length == 2)//error handling for if the line does not have an equal sign
                     {
                         responseList.Add(new string[] { parts[0].ToLower(), parts[1] });//a new string array is created and stored into the array list
                     }
                 }
-            
-            
+
+            }
+            else
+            {
+                Console.WriteLine("file does not exists");
+            }
 
             return responseList; //returns and arraylist responseList
         }//end of LoadResponsesFromFile
@@ -206,16 +219,18 @@ namespace chatBotPrj
             foreach (string[] pair in responseList)
             {
                 //declaring a variable keyword and assigning it to index 0
-                string keyword = pair[0];
+                string keyword = pair[0].ToLower();
 
                 //declaring a variable response and assigning it to index 1
                 string response = pair[1];
 
-                if (userInput.Contains(keyword))
+                string responsePattern = @"\b" + Regex.Escape(keyword) + @"\b"; // Match exact words
+
+                if (Regex.IsMatch(userInput, responsePattern, RegexOptions.IgnoreCase))
                 {
-                    TypingEffect(botName + ": " + response, ConsoleColor.Green); 
-                    return; 
-                } 
+                    TypingEffect(botName + ": " + response, ConsoleColor.Green);
+                    return;
+                }
             }//end findBestResponse method
 
            
@@ -242,7 +257,7 @@ namespace chatBotPrj
             foreach (char c in message)
             {
                 Console.Write(c);
-                System.Threading.Thread.Sleep(speed); // Adjust speed for effect
+                System.Threading.Thread.Sleep(speed); 
             }
             Console.WriteLine();
             Console.ResetColor ();

@@ -16,6 +16,9 @@ namespace chatBotPrj
             //Checking if it is getting the Directory
             Console.WriteLine(soundLocation);
 
+            //Displaying a wait message while the sound plays
+            Console.WriteLine("Please wait for the sound to finish playing......");
+
             //Replacing the bin\debug so it can get the audio
             string updatedPath = soundLocation.Replace("bin\\Debug\\", "");
 
