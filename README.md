@@ -62,8 +62,9 @@ Code Explanation
 
 Example Interaction
 ***********************************
-- When the program starts to execute, the logo will display and the voice greeting follows
-![image](https://github.com/user-attachments/assets/22b310dd-bab9-4d3d-9e32-ec2cc76f439d)
+- When the program starts to execute, the  voice greeting will play and then the logo will display 
+![image](https://github.com/user-attachments/assets/f550cc98-eca7-4d6b-ae64-67c89ea2494d)
+
 
 - After the logo display welcome message will display, along with a greeting message and the program asks the user for thier name
 ![image](https://github.com/user-attachments/assets/863fc5bc-e926-4f9a-a3ff-761393a69e5b)
