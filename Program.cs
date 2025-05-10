@@ -22,8 +22,11 @@ namespace chatBotPrj
 
 
             //Creating an instance for class ResponseCheck
-            new ResponseCheck();    
-            
+            CyberBot bot = new CyberBot();
+
+            //creating an instance for chat user interaction class
+            ChatUI userInterface = new ChatUI(bot);
+            userInterface.StartChat();
         }
 
        
