@@ -7,7 +7,7 @@ namespace chatBotPrj
 {
     public class MemoryManager
     {
-         private readonly string memoryFilePath;
+        private readonly string memoryFilePath;
 
         public MemoryManager()
         {

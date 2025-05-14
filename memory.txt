@@ -1,6 +1,10 @@
-userName=Kopano
+userName=Nkata
 favoriteTopics_Kopano=
 lastSentiment=worried
 lastTopic=malware
-botName=Nkata
+botName=Keoagile
 favouriteTopics_Kopano=,passwords,password,phishing,hi,malware
+favoriteTopics_Keoagile=
+favouriteTopics_Keoagile=,passwords,password
+favoriteTopics_Nkata=
+favouriteTopics_Nkata=,malware,passwords,password
