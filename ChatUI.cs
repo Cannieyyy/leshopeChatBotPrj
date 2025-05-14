@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
@@ -71,7 +72,7 @@ namespace chatBotPrj
             while (!bot.isValidName(bot.userName))// the while loop makes sure the user enters their name and that their name does not contain any characters or numbers
             {
                 bot.TypingEffect(bot.botName + $": This field cannot be empty or contain numbers/special characters! Please enter your name!", ConsoleColor.Red);
-                bot.userName = Prompt($"{bot.botName}: ");
+                bot.userName = Prompt("You");
                 bot.userName = bot.FilterUnwantedWords(bot.userName);
             }
 
@@ -141,11 +142,9 @@ namespace chatBotPrj
 
             bot.TypingEffect($"{bot.botName}: Nice to meet you {bot.userName}!", ConsoleColor.Green);
 
+            memory.ClearFile();//clear the file for new user
             memory.SaveData("userName", bot.userName);
-            memory.SaveData($"favoriteTopics_{bot.userName}", ""); // clear old topics
-            memory.SaveData("lastSentiment", "");  // clear old sentiment
-            memory.SaveData("lastTopic", "");      // clear old topic
-            memory.SaveData("botName", "CyberBot"); // reset bot name
+           
 
             // Asking the user if they want to change the bot's name
             bot.TypingEffect($"{bot.botName}: Would you like to give me a name {bot.userName}?", ConsoleColor.Green);
@@ -216,7 +215,7 @@ namespace chatBotPrj
         private void ProcessUserInput(List<(string Keyword, List<string> Responses)> responses, string userInput)
         {
 
-            while (string.IsNullOrWhiteSpace(userInput) || !bot.isValidName(userInput))
+            while (!bot.isValidName(userInput))
             {
                 bot.TypingEffect($"{bot.botName}: This field cannot be empty or contain numbers or characters! Please provide a valid input.", ConsoleColor.Red);
                 userInput = Prompt(bot.userName).ToLower();
@@ -247,13 +246,12 @@ namespace chatBotPrj
         private string Prompt(string speaker)
         {
             string input;
-            do//loop to repeat these function while the user input is empty
-            {
+            
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.Write($"{speaker}: ");
                 input = Console.ReadLine();
                 Console.ResetColor();
-            } while (string.IsNullOrEmpty(input));
+            
 
             return input;
         }
