@@ -1,0 +1,6 @@
+userName=Kopano
+favoriteTopics_Kopano=
+lastSentiment=worried
+lastTopic=malware
+botName=Nkata
+favouriteTopics_Kopano=,passwords,password,phishing,hi,malware
