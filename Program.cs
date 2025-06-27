@@ -18,7 +18,6 @@ namespace chatBotPrj
             //creating an instance for a class DisplayLogo
             new DisplayLogo() { };
 
-
             //Creating an instance for class ResponseCheck
             CyberBot bot = new CyberBot();
 

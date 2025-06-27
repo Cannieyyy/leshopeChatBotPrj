@@ -49,7 +49,6 @@ namespace chatBotPrj
                 Console.WriteLine(error.Message);
 
             }//end of try and catch 
-        }
-
+        }//end of playWav mehtod
     }//end of class
 }//end of namespace

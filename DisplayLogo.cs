@@ -16,7 +16,7 @@ namespace chatBotPrj
             //Replace the bin\\Debug\\
             string newLogoPath = logoPath.Replace("bin\\Debug", "");
 
-            //
+            //combine the directory with the file name
             string fullPath = Path.Combine(newLogoPath, "logo.jpg");
 
             //Time to start working on the logo using the ASCII
@@ -46,22 +46,11 @@ namespace chatBotPrj
                     Console.Write(ascii_design); //Displaying the ascii design 
                     Console.ResetColor();
 
-                }//end of inner loop 
-
-               
+                }//end of inner loop
+                 
                 Console.WriteLine(); //Skipping the line 
-                
-
 
             }//end of outer for loop 
-
-
-
-
-
-
         }
-
-
     }
 }

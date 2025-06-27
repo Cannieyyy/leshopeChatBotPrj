@@ -83,7 +83,6 @@ namespace chatBotPrj
         //a method that runs only if the user is remembered
         private void LoadUser()
         {
-
             // Load the saved names from memory
             string savedName = memory.LoadData("userName");
             string savedBotName = memory.LoadData("botName");
@@ -139,7 +138,6 @@ namespace chatBotPrj
         //a method to welcome new user
         private void WelcomeNewUser()
         {
-
             bot.TypingEffect($"{bot.botName}: Nice to meet you {bot.userName}!", ConsoleColor.Green);
 
             memory.ClearFile();//clear the file for new user
@@ -214,7 +212,6 @@ namespace chatBotPrj
         //method to process the user input
         private void ProcessUserInput(List<(string Keyword, List<string> Responses)> responses, string userInput)
         {
-
             while (!bot.isValidName(userInput))
             {
                 bot.TypingEffect($"{bot.botName}: This field cannot be empty or contain numbers or characters! Please provide a valid input.", ConsoleColor.Red);

@@ -109,8 +109,6 @@ namespace chatBotPrj
                 && !string.IsNullOrEmpty(lastTopicAsked));
         
         }//end of IsFollowUp method
-        
-
 
         //method to handle follow up question
         private bool HandleFollowUpResponse(List<(string Keyword, List<string> Response)> responseList) 
@@ -127,8 +125,6 @@ namespace chatBotPrj
                 return false;
          }//end of handleFollowUpResponse
 
-
-
         //method to find matched topics
         private (List<string> matchedTopics, List<string> matchingResponses) MatchesTopics(
            List<(string Keyword, List<string> Response)> responseList, string userInput)
@@ -139,11 +135,10 @@ namespace chatBotPrj
             //store sentiment keywords
             var sentimentKeywords = new List<string> { "worried", "frustrated", "curious", "anxious", "confused", "sad", "stressed", "interested" };
 
-            //foreach loop that loops through the arraylist in pairs
+            //foreach loop that loops through the list in pairs
             foreach (var (keyword, responses) in responseList)
             {
                 if (sentimentKeywords.Contains(keyword.ToLower())) continue;
-
 
                 //declaring a variable pattern and assigning it to a regex expression
                 var pattern = $"\\b{Regex.Escape(keyword)}\\b"; //this pattern helps us match the exact keyword
@@ -159,7 +154,7 @@ namespace chatBotPrj
 
                     if (isRemembered)
                     {
-                        matchingResponses.Add($"{botName}: I remeber we disscussed {keyword} earlier. {response}");
+                        matchingResponses.Add($"{botName}: I remember we disscussed {keyword} earlier. {response}");
                     }
                     else
                     {
@@ -175,8 +170,6 @@ namespace chatBotPrj
             }
             return (matchedTopics, matchingResponses);
         }//end of find matching response method
-
-
 
         //method to display reponse
         private bool DisplayResponses(List<string> matchedTopics, List<string> matchingResponses, string sentiment)
@@ -201,9 +194,7 @@ namespace chatBotPrj
                 return true;
             
         }//Diplay reposnes method
-
-
-
+ 
         //a method that detects sentiment
         private string DetectSentiment(string input)
         {
@@ -213,8 +204,6 @@ namespace chatBotPrj
             if (input.Contains("frustrated") || input.Contains("confused") || input.Contains("sad") || input.Contains("stressed")) return "frustrated";
             return null;
         }
-
-
 
         // a methods that adds a typing effect to the chatbot's response
         public void TypingEffect(string message, ConsoleColor color)// this method parses a string, a colour and int as a parameter

@@ -1,3 +1,2 @@
-userName=kopano
-favouriteTopics_kopano=,passwords,password,malware,phishing
-lastTopic=phishing
+userName=Kopano
+botName=Nkata
